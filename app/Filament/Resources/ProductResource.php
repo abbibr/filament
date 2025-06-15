@@ -36,9 +36,9 @@ class ProductResource extends Resource
 
     protected static ?string $navigationGroup = 'Shop';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-o-bolt';
+    // protected static ?string $activeNavigationIcon = 'heroicon-o-bolt';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
     protected static ?int $navigationSort = 0;
 
