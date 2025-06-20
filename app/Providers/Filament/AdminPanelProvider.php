@@ -6,6 +6,8 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -31,6 +33,20 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Indigo,
             ])
             ->globalSearchKeyBindings(['command+k', 'ctrl+k', 'win+s', 'ctrl+s'])
+            ->sidebarFullyCollapsibleOnDesktop()
+            ->navigationItems([
+                NavigationItem::make('Website')
+                    ->url('https://rotation.uz', true)
+                    ->icon('heroicon-o-pencil-square')
+                    ->group('External')
+                    ->sort(2)
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Settings')
+                    ->url('https://rotate.uz')
+                    ->icon('heroicon-o-cog-6-tooth')
+            ])
             ->font('Poppins')
             ->favicon('img/logo.png')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

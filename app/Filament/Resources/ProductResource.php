@@ -47,6 +47,11 @@ class ProductResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name'; // global search
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function getGloballySearchableAttributes(): array
     {
         return [
