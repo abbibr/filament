@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -63,6 +64,12 @@ class OrderResource extends Resource
                                 ->searchable()
                                 ->required(),
 
+                            TextInput::make('shipping_price')
+                                ->label('Shipping Costs')
+                                ->dehydrated()
+                                ->numeric()
+                                ->required(),
+
                             Select::make('type')
                                 ->options([
                                     'pending' => OrderStatusEnum::PENDING->value,
@@ -70,7 +77,6 @@ class OrderResource extends Resource
                                     'completed' => OrderStatusEnum::COMPLETED->value,
                                     'declined' => OrderStatusEnum::DECLINED->value,
                                 ])
-                                ->columnSpan('full')
                                 ->required(),
 
                             MarkdownEditor::make('notes')
@@ -86,10 +92,15 @@ class OrderResource extends Resource
                                         ->label('Product')
                                         ->options(Product::query()->pluck('name', 'id'))
                                         ->placeholder('Choose a product')   
-                                        ->required(),
+                                        ->required()
+                                        ->reactive()
+                                        ->afterStateUpdated(fn ($state, Forms\Set $set) =>
+                                            $set('unit_price', Product::find($state)?->price ?? 0)),
 
                                     TextInput::make('quantity')
                                         ->numeric()
+                                        ->live()
+                                        ->dehydrated()
                                         ->required()
                                         ->default(1),
 
@@ -99,7 +110,13 @@ class OrderResource extends Resource
                                         ->numeric()
                                         ->disabled()
                                         ->dehydrated(),
-                                ])->columns(3),
+
+                                    Placeholder::make('total_price')
+                                        ->label('Total Price')
+                                        ->content(function($get) {
+                                            return (int) $get('quantity') * (float) $get('unit_price');
+                                        })
+                                ])->columns(4),
                         ]),
                 ])->columnSpan('full')
             ]);
@@ -121,13 +138,6 @@ class OrderResource extends Resource
                 TextColumn::make('status')
                     ->searchable()
                     ->sortable(),
-
-                TextColumn::make('total_price')
-                    ->searchable()
-                    ->sortable()
-                    ->summarize([
-                        Sum::make()->money()
-                    ]),
 
                 TextColumn::make('created_at')
                     ->label('Order Date')

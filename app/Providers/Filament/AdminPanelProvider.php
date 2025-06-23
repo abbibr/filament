@@ -32,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Indigo,
             ])
-            ->globalSearchKeyBindings(['command+k', 'ctrl+k', 'win+s', 'ctrl+s'])
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k', 'ctrl+s'])
             ->sidebarFullyCollapsibleOnDesktop()
             ->navigationItems([
                 NavigationItem::make('Website')
