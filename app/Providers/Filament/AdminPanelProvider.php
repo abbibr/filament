@@ -19,6 +19,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -44,9 +45,13 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Settings')
-                    ->url('https://rotate.uz')
+                    ->url('https://rotation.uz')
                     ->icon('heroicon-o-cog-6-tooth')
             ])
+            // plugin registration
+            // ->plugins([
+            //     SpotlightPlugin::make(),
+            // ])
             ->font('Poppins')
             ->favicon('img/logo.png')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
